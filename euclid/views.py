@@ -89,3 +89,24 @@ def login_user(request):
 def logout_user(request):
 	logout(request)
 	return HttpResponseRedirect('/euclid/')
+
+def stats(request):
+	easy_question  = Question.objects.filter(level='easy')
+	easy_question_id = [eq.id for eq in easy_question]
+	medium_question = Question.objects.filter(level='medium')
+	medium_question_id = [mq.id for mq in medium_question]
+	hard_question = Question.objects.filter(level='hard')
+	hard_question_id = [hq.id for hq in hard_question]
+	level_solved = [0]*3
+	userprofile_list = UserProfile.objects.all()
+	userprofile_list_solved_str = [userprofile.questions_solved.split(';')[:-1] for userprofile in userprofile_list]
+	for up_list_solved_str in userprofile_list_solved_str:
+		userprofile_list_solved = [int(s) for s in up_list_solved_str]
+		for i in userprofile_list_solved:
+			if i in easy_question_id:
+				level_solved[0] += 1
+			elif i in medium_question_id:
+				level_solved[1] += 1
+			else:
+				level_solved[2] += 1
+	return render(request, 'euclid/stats.html', {'level': level_solved})

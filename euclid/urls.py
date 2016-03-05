@@ -8,4 +8,5 @@ urlpatterns = [
 	url(r'^login/$', login_user),
 	url(r'^logout/$', logout_user),
 	url(r'^(?P<question_id>[0-9]{1})/$', individual_question),
+	url(r'^stats/$', stats),
 	]

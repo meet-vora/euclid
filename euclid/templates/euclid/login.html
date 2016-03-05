@@ -1,8 +1,12 @@
 {% load staticfiles %}
-<html><head><title>Log in | Project Euclid</title>
-<link rel="stylesheet" href="{% static 'euclid/css/bootstrap.css' %}">
-</head><body><div class="container">
-<div class="text-center"><a href = '/euclid/' style="color:inherit; text-decoration: none"><h1> Project Euclid </h1></a></div>
+<html>
+<head>
+	<title>Log in | Project Euclid</title>
+	<link rel="stylesheet" href="{% static 'euclid/css/bootstrap.css' %}">
+</head>
+<body>
+	<div class="container">
+		<div class="text-center"><a href = '/euclid/' style="color:inherit; text-decoration: none"><h1> Project Euclid </h1></a></div>
     	<br><br><hr><br><br>
     	<div class="row">
 			<div class="col-md-6 col-md-offset-3">
@@ -28,8 +32,9 @@
 								</form> 
 								<div class = "text-center" style="margin: 10% 40%; width: 20%">
 								{% if not status %}
-								<p class="bg-success">Incorrect credentials</p>
+									<p class="bg-success">Incorrect credentials</p>
 								{% endif %}
+								</div>
 							</div>
 						</div>
 					</div>

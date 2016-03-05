@@ -3,4 +3,3 @@ from .models import Question, UserProfile
 
 admin.site.register(Question)
 admin.site.register(UserProfile)
-# Register your models here.
