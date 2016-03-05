@@ -8,7 +8,9 @@
 <p class="lead" style="margin: 50px"> {{ problem }} </p>
 {% if attempt %}
 <div class = "text-center" style="margin: 10% 40%; width: 20%">
-{% if solution %}
+{% if solved %}
+	<p class="bg-success">Already solved</p>
+{% elif solution %}
 	<p class="bg-success">Correct Answer</p>
 {% else %}
 	<p class="bg-danger">Incorrect Answer</p>

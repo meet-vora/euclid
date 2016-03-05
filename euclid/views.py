@@ -6,12 +6,33 @@ from .models import *
 
 def index(request):
 	question_list = Question.objects.all()
-	display = [(q.id, q.level) for q in question_list]
-	return render(request, 'euclid/index.html', {'question_list': question_list})
+	userprofile_list = UserProfile.objects.all()
+	userprofile_list_solved_str = [userprofile.questions_solved.split(';')[:-1] for userprofile in userprofile_list]
+	question_solve_count = [0]*len(question_list)
+	for up_list_solved_str in userprofile_list_solved_str:
+		userprofile_list_solved = [int(s) for s in up_list_solved_str]
+		if userprofile_list_solved is not None:
+			for entry in userprofile_list_solved:
+				question_solve_count[entry-1] += 1
+	print question_solve_count
+	solved_by_user = []
+	display =[]
+	if request.user.is_authenticated():
+		userprofile = UserProfile.objects.get(user = request.user)
+		if userprofile.questions_solved.split(';') != ['']:
+			solved_by_user = [int(s) for s in userprofile.questions_solved.split(';')[:-1]]
+	for i, q in enumerate(question_list):
+		solved_by_count = 0
+		solved = False
+		if int(q.id) in solved_by_user:
+			solved = True
+		display.append((q.id, q.level, solved, question_solve_count[i]))
+	return render(request, 'euclid/index.html', {'question_list': display})
 
 @login_required(login_url='/euclid/login/')
 def individual_question(request, question_id):
 	userprofile = UserProfile.objects.get(user = request.user) 
+	solved = False
 	if request.POST:
 		question = Question.objects.get(pk =question_id)
 		problem_statement = question.question_text
@@ -26,14 +47,14 @@ def individual_question(request, question_id):
 		if userprofile.questions_solved.split(';') != ['']:
 			solved_by_user = [int(s) for s in userprofile.questions_solved.split(';')[:-1]] 
 			if int(question_id) in solved_by_user:
-				solution = True
+				solved = True
 				attempt = True
 		try:
 			question = Question.objects.get(pk = question_id)
 		except Question.DoesNotExist:
 			raise Http404("Question does not exist")
 		problem_statement = question.question_text
-	return render(request, 'euclid/post.html', {'problem': problem_statement, 'id': question_id, 'attempt': attempt, 'solution': solution})
+	return render(request, 'euclid/post.html', {'problem': problem_statement, 'id': question_id, 'attempt': attempt, 'solution': solution, 'solved': solved})
 
 def register(request):
 	if request.POST:

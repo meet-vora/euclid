@@ -9,10 +9,7 @@
 				<div class="panel panel-login">
 					<div class="panel-body">
 						<div class="row">
-							<div class="col-lg-12"> <!--
-							{% if registered %}
-							<h2>Thank you for registering. :) <hr>You may proceed by <a href="/login/signin/">logging in</a>.
-							{% else %} -->
+							<div class="col-lg-12">
 								<form id="register-form" action="/euclid/register/" method="POST" role="form" style="display: block;">
 								{% csrf_token %} 
 									<div class="form-group">
@@ -31,8 +28,7 @@
 											</div>
 										</div>
 									</div>
-								</form> <!--
-								{% endif %} -->
+								</form>
 							</div>
 						</div>
 					</div>

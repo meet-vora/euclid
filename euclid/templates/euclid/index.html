@@ -26,10 +26,10 @@
 
 {% if question_list %}
     {% for question in question_list %}
-    <tr>
-        <td><a href="/euclid/{{ question.id }}/">Problem {{ question.id }}</a></td>
-        <td> {{ question.level }}</td>
-        <td> Sample Value </td>
+    <tr style = "{% if question.2 %} color: #ccc {% endif %}">
+        <td><a href="/euclid/{{ question.0 }}/" style = "{% if question.2 %} color: #ccc {% endif %}">Problem {{ question.0}}</a></td>
+        <td> {{ question.1 }}</td>
+        <td> {{ question.3 }} </td>
      </tr>
     {% endfor %}
 {% endif %}
