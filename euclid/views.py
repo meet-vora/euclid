@@ -58,6 +58,9 @@ def individual_question(request, question_id):
 
 def register(request):
 	if request.POST:
+		user_check = User.objects.get(username = request.POST['username'])
+		if user_check is not None:
+			return render(request, 'euclid/login.html', {'status': False, 'message': 'User already exists. Log in here'}) 
 		user = User()
 		user.username = request.POST['username']
 		user.email = request.POST['email']
@@ -78,13 +81,16 @@ def login_user(request):
 		password = request.POST['password']
 		userprofile = authenticate(username=username, password=password)
 		if userprofile is not None:
-			user = userprofile.user
+			if type(userprofile) is UserProfile:
+				user = userprofile.user
+			else:
+				user = userprofile
 			user.backend = 'django.contrib.auth.backends.ModelBackend'
 			login(request, user)
 			return HttpResponseRedirect('/euclid/')
 		else:
 			status = False
-	return render(request, 'euclid/login.html', {'status': status})
+	return render(request, 'euclid/login.html', {'status': status, 'message': 'Incorrect credentials'})
 
 def logout_user(request):
 	logout(request)
