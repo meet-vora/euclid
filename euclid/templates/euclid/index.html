@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<html><head><title>Home | Project Euclid</title>
+<link rel="stylesheet" href="{% static 'euclid/css/bootstrap.css' %}">
+</head>
+<body>
+<h1> Project Euclid </h1>
+<br>
+{% if user.is_authenticated %}
+<div class="col-xs-6 col-sm-4">
+<h4><input class="form-control" type="text" placeholder="Welcome {{user.username}}" readonly> </h4>
+</div>
+<a type="button" class="btn btn-info" href = 'logout/'>Logout</a>
+{% else %}
+<div class="col-xs-6 col-sm-4"> </div>
+<div class="col-xs-6 col-sm-4"> <a type="button" class="btn btn-info" href = 'register/'>Sign Up</a> </div>
+<div class="col-xs-6 col-sm-4"> <a type="button" class="btn btn-info" href = 'login/'>Log In</a> </div>
+<br><br>
+{% endif %}
+<table class="table table-hover">
+  <tr>
+  <th> Problem # </th>
+  <th> Difficulty </th>
+  <th> Solved by </th>
+  </tr>
+
+{% if question_list %}
+    {% for question in question_list %}
+    <tr>
+        <td><a href="/euclid/{{ question.id }}/">Problem {{ question.id }}</a></td>
+        <td> {{ question.level }}</td>
+        <td> Sample Value </td>
+     </tr>
+    {% endfor %}
+{% endif %}
+
+</table>
+</body>
+</html>

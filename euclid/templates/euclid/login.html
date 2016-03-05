@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<html><head><title>Log in | Project Euclid</title>
+<link rel="stylesheet" href="{% static 'euclid/css/bootstrap.css' %}">
+</head><body><div class="container">
+    	<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-login">
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-lg-12"> 
+								<form id="register-form" action="/euclid/login/" method="POST" role="form" style="display: block;">
+								{% csrf_token %} 
+									<div class="form-group">
+										<input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+									</div>
+									<div class="form-group">
+										<input type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+									</div>
+									<div class="form-group">
+										<div class="row">
+											<div class="col-sm-6 col-sm-offset-3">
+												<input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Log In">
+											</div>
+										</div>
+									</div>
+								</form> 
+								<div class = "text-center" style="margin: 10% 40%; width: 20%">
+								{% if not status %}
+								<p class="bg-success">Incorrect credentials</p>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

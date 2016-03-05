@@ -1,0 +1,33 @@
+{% load staticfiles %}
+<html><head><title>Problem {{id}} | Project Euclid</title>
+<link rel="stylesheet" href="{% static 'euclid/css/bootstrap.css' %}"> </head>
+<body>
+<h1 style="margin-left: 50px"> Project Euclid </h1>
+<br>
+<h3 style="margin-left: 50px"> Problem {{id}} </h3> <hr>
+<p class="lead" style="margin: 50px"> {{ problem }} </p>
+{% if attempt %}
+<div class = "text-center" style="margin: 10% 40%; width: 20%">
+{% if solution %}
+	<p class="bg-success">Correct Answer</p>
+{% else %}
+	<p class="bg-danger">Incorrect Answer</p>
+{% endif %}
+</div>
+{% else %}
+<hr>
+<div style="width: 50%; margin: 0 35%">
+<form class="form-inline " style="margin-top: 60px" action="/euclid/{{id}}/" method="POST" role="form">
+  <div class="form-group">
+  {% csrf_token %} 
+    <div class="input-group ">
+      <div class="input-group-addon">></div>
+      <input type="number" class="form-control" id="answer" name="answer" placeholder="Answer (Greatest Integer)">
+      </div>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+{% endif %}
+</body>
+</html>
