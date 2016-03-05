@@ -11,12 +11,6 @@ class UserProfile(models.Model):
 	def __unicode__(self):
 		return self.user.username
 
-	def addQuestionSolve(self, x):
-		self.questions_solved = json.dumps(x)
-
-	def getQuestionSolved(self, x):
-		return json.loads(self.questions_solved)
-
 class Question(models.Model):
 	DIFFICULTY = (
 			('easy', 'Easy'),

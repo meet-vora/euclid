@@ -11,16 +11,23 @@ def index(request):
 
 @login_required(login_url='/euclid/login/')
 def individual_question(request, question_id):
+	userprofile = UserProfile.objects.get(user = request.user) 
 	if request.POST:
 		question = Question.objects.get(pk =question_id)
 		problem_statement = question.question_text
 		solution =  int(question.answer) == int(request.POST['answer'])
 		if solution:
-			userprofile
+			userprofile.questions_solved += str(question_id) + ';'
+			userprofile.save()
 		attempt = True
 	else:
 		attempt = False
 		solution = None
+		if userprofile.questions_solved.split(';') != ['']:
+			solved_by_user = [int(s) for s in userprofile.questions_solved.split(';')[:-1]] 
+			if int(question_id) in solved_by_user:
+				solution = True
+				attempt = True
 		try:
 			question = Question.objects.get(pk = question_id)
 		except Question.DoesNotExist:
